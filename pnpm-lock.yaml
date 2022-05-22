@@ -13,6 +13,7 @@ specifiers:
   redux-immutable: ^4.0.0
   redux-thunk: ^2.4.1
   styled-components: ^5.3.5
+  swiper: ^4.5.0
   typescript: ^4.6.3
   vite: ^2.9.9
 
@@ -26,6 +27,7 @@ dependencies:
   redux-immutable: 4.0.0_immutable@4.0.0
   redux-thunk: 2.4.1_redux@4.2.0
   styled-components: 5.3.5_react-dom@18.1.0+react@18.1.0
+  swiper: 4.5.1
 
 devDependencies:
   '@types/react': 18.0.9
@@ -518,6 +520,12 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 5.5.0
+    dev: false
+
+  /dom7/2.1.5:
+    resolution: {integrity: sha512-xnhwVgyOh3eD++/XGtH+5qBwYTgCm0aW91GFgPJ3XG+jlsRLyJivnbP0QmUBFhI+Oaz9FV0s7cxgXHezwOEBYA==}
+    dependencies:
+      ssr-window: 2.0.0
     dev: false
 
   /electron-to-chromium/1.4.137:
@@ -1014,6 +1022,14 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /ssr-window/1.0.1:
+    resolution: {integrity: sha512-dgFqB+f00LJTEgb6UXhx0h+SrG50LJvti2yMKMqAgzfUmUXZrLSv2fjULF7AWGwK25EXu8+smLR3jYsJQChPsg==}
+    dev: false
+
+  /ssr-window/2.0.0:
+    resolution: {integrity: sha512-NXzN+/HPObKAx191H3zKlYomE5WrVIkoCB5IaSdvKokxTpjBdWfr0RaP+1Z5KOfDT0ZVz+2tdtiBkhsEQ9p+0A==}
+    dev: false
+
   /styled-components/5.3.5_react-dom@18.1.0+react@18.1.0:
     resolution: {integrity: sha512-ndETJ9RKaaL6q41B69WudeqLzOpY1A/ET/glXkNZ2T7dPjPqpPCXXQjDFYZWwNnE5co0wX+gTCqx9mfxTmSIPg==}
     engines: {node: '>=10'}
@@ -1047,6 +1063,15 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /swiper/4.5.1:
+    resolution: {integrity: sha512-se6I7PWWu950NAMXXT+ENtF/6SVb8mPyO+bTfNxbQBILSeLqsYp3Ndap+YOA0EczOIUlea274PKejT6gKZDseA==}
+    engines: {node: '>= 4.7.0'}
+    requiresBuild: true
+    dependencies:
+      dom7: 2.1.5
+      ssr-window: 1.0.1
+    dev: false
 
   /to-fast-properties/2.0.0:
     resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}

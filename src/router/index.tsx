@@ -11,12 +11,10 @@ const MyRouter = () => {
       element: <Home />,
       children: [
         {
-          // index: true,
           path: "/",
-        element: <Navigate to="/recommend"   />
+          element: <Navigate to="/recommend" />,
         },
         {
-          // index: true,
           path: "/recommend",
           element: <Recommend />,
         },
