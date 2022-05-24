@@ -1,6 +1,9 @@
 import React from "react";
 import Slider from "../../components/slider/slider";
 import RecommendList from "../../components/list/list";
+import Scroll from "../../baseUI/scroll/index";
+import { forceCheck } from "react-lazyload";
+import { Content } from "./style";
 function Recommend() {
   //mock 数据
   const bannerList = [1, 2, 3, 4].map((item) => {
@@ -20,10 +23,14 @@ function Recommend() {
     };
   });
   return (
-    <div>
-      <Slider bannerList={bannerList}></Slider>
-      <RecommendList recommendList={recommendList}></RecommendList>
-    </div>
+    <Content>
+      <Scroll className="list">
+        <div>
+          <Slider bannerList={bannerList}></Slider>
+          <RecommendList recommendList={recommendList}></RecommendList>
+        </div>
+      </Scroll>
+    </Content>
   );
 }
 
