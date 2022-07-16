@@ -4,8 +4,7 @@ import RecommendList from '../../components/list/list';
 import Scroll from '../../baseUI/scroll/index';
 import { forceCheck } from 'react-lazyload';
 import { Content } from './style';
-import { forceCheck } from 'react-lazyload';
-import Loading from '../../baseUI/loading/index';
+// import Loading from '../../baseUI/loading/index';
 function Recommend() {
   //mock 数据
   const bannerList = [1, 2, 3, 4].map((item) => {
@@ -32,7 +31,7 @@ function Recommend() {
           <RecommendList recommendList={recommendList}></RecommendList>
         </div>
       </Scroll>
-      <Loading></Loading>
+      {/* <Loading></Loading> */}
     </Content>
   );
 }
