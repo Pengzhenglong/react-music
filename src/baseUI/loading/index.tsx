@@ -10,7 +10,7 @@ const loading = keyframes`
     transform: scale(1.0);
   }
   `;
-const loadingWrapper = styled.div`
+const LoadingWrapper = styled.div`
   > div {
     position: fixed;
     z-index: 1000;
