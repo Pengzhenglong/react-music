@@ -10,7 +10,7 @@ import {
   CHANGE_PAGE_COUNT,
   CHANGE_PULLUP_LOADING,
   CHANGE_PULLDOWN_LOADING,
-  CHANGE_ENTER_LOADING,
+  CHANGE_ENTER_LOADING
 } from './constants';
 
 export  const changeSingerList = (data) => ({
@@ -59,8 +59,8 @@ export const getHotSingerList = () => {
 // 加载更多热门歌手
 export const refreshMoreHotSingerList = () => {
   return (dispatch, getState) => {
-    const pageCount = getState().getIn(['singer', 'pageCount']);
-    const singerList = getState().getIn(['singer', 'singerList']).toJs();
+    const pageCount = getState().getIn(['singers', 'pageCount']);
+    const singerList = getState().getIn(['singers', 'singerList']).toJS();
     getHotSingerListRequest(pageCount)
       .then((res) => {
         const data = [...singerList, ...res.artists];

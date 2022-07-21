@@ -3,7 +3,7 @@ import Horizen from '@/baseUI/horizen-item/index';
 import { categoryTypes, alphaTypes } from '@/api/config';
 import { NavContainer, ListContainer, List, ListItem } from './style';
 import Scroll from '@/baseUI/scroll/index';
-
+import Loading from '@/baseUI/loading/index';
 import {
   getSingerList,
   getHotSingerList,
@@ -15,12 +15,14 @@ import {
   refreshMoreHotSingerList,
 } from './store/actionCreators';
 import { connect } from 'react-redux';
+import { PullDownLoading } from '../../baseUI/scroll/index';
 
 function Singers(props) {
   let [category, setCategory] = useState('');
   let [alpha, setAlpha] = useState('');
   const { getHotSingerDispatch, updateDispatch, pullDownRefreshDispatch, pullUpRefreshDispatch } = props;
   const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount } = props;
+  console.log(props);
   let handleUpdateAlpha = (val) => {
     setAlpha(val);
     updateDispatch(category,val)
@@ -32,20 +34,16 @@ function Singers(props) {
   useEffect(() => {
     getHotSingerDispatch();
   },[])
-  // mock数据
-  // const singerList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => {
-  //   return {
-  //     picUrl:
-  //       'https://p2.music.126.net/uTwOm8AEFFX_BYHvfvFcmQ==/109951164232057952.jpg',
-  //     name: '隔壁老樊',
-  //     accountId: 277313426,
-  //   };
-  // });
-
+  const handlePullUp = () => {
+    pullUpRefreshDispatch(category, alpha, category === '', pageCount);
+  }
+  const handlePullDown = () => {
+    pullDownRefreshDispatch(category, alpha);
+  }
   // 渲染函数，返回歌手列表
   const renderSingerList = () => {
     const  list  = singerList?singerList.toJS():[];
-    console.log(props)
+    // console.log(props)
     return (
       <List>
         {list.map((item, index) => {
@@ -83,13 +81,17 @@ function Singers(props) {
         />
       </NavContainer>
       <ListContainer>
-        <Scroll>{renderSingerList()}</Scroll>
+        <Scroll
+        pullUp={handlePullUp}
+        pullDown = {handlePullDown}
+        pullUpLoading={pullUpLoading}
+        pullDownLoading={pullDownLoading}
+        >{renderSingerList()}</Scroll>
+         <Loading show={enterLoading}></Loading>
       </ListContainer>
     </div>
   );
 }
-
-
   // redux 连接数据
   const mapStateToProps = (state) => ({
     singerList: state.getIn(['singers', 'singerList']),
@@ -108,16 +110,16 @@ function Singers(props) {
         dispatch(changeEnterLoading(true)); //loading，现在实现控制逻辑，效果实现放到下一节，后面的loading同理
         dispatch(getSingerList(category, alpha));
       },
-      // 滑到最底部刷新部分的处理
-      pullUpRefreshDispatch(category, alpha, hot, count) {
-        dispatch(changePullUpLoading(true));
-        dispatch(changePageCount(count + 1));
-        if (hot) {
-          dispatch(refreshMoreHotSingerList());
-        } else {
-          dispatch(refreshMoreSingerList(category, alpha));
-        }
-      },
+    // 滑到最底部刷新部分的处理
+    pullUpRefreshDispatch(category, alpha, hot, count) {
+      dispatch(changePullUpLoading(true));
+      dispatch(changePageCount(count+1));
+      if(hot){
+        dispatch(refreshMoreHotSingerList());
+      } else {
+        dispatch(refreshMoreSingerList(category, alpha));
+      }
+    },
       //顶部下拉刷新
       pullDownRefreshDispatch(category, alpha) {
         dispatch(changePullDownLoading(true));
