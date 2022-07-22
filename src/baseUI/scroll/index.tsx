@@ -3,6 +3,7 @@ import React, {
   useState,
   useEffect,
   useRef,
+  useMemo,
   useImperativeHandle,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -11,6 +12,7 @@ import styled from 'styled-components';
 import Loading from '../loading/index';
 import style from '@/assets/global-style';
 import LoadingV2 from '../loading-v2/index';
+import  {debounce}  from  '@/api/utils';
 
 const ScrollContainer = styled.div`
   width: 100%;
@@ -45,6 +47,13 @@ const Scroll = forwardRef((props, ref) => {
   const { direction, click, refresh, bounceTop, bounceBottom } = props;
 
   const { pullUp, pullDown, onScroll, pullUpLoading, pullDownLoading } = props;
+
+  let pullUpDebounce = useMemo(()=>{
+    return debounce(pullUp,300)
+  },[pullUp])
+  let pullDownDebounce = useMemo(()=>{
+    return debounce(pullDown,300)
+  },[pullDown])
   // console.log(" pullUp, pullDown, onScroll")
   // console.log(props);
 
@@ -82,26 +91,26 @@ const Scroll = forwardRef((props, ref) => {
     bScroll.on('scrollEnd', () => {
       //判断是否滑动到了底部
       if (bScroll.y <= bScroll.maxScrollY + 100) {
-        pullUp();
+        pullUpDebounce();
       }
     });
     return () => {
       bScroll.off('scrollEnd');
     };
-  }, [pullUp, bScroll]);
+  }, [pullUpDebounce,pullUp, bScroll]);
   // 进行下拉的判断，调用下拉刷新的函数
   useEffect(() => {
     if (!bScroll || !pullDown) return;
     bScroll.on('touchEnd', (pos) => {
       //判断用户的下拉动作
       if (pos.y > 50) {
-        pullDown();
+        pullDownDebounce();
       }
     });
     return () => {
       bScroll.off('touchEnd');
     };
-  }, [pullDown, bScroll]);
+  }, [pullDownDebounce,pullDown, bScroll]);
   // 每次重新渲染都要刷新实例，防止无法滑动
   useEffect(() => {
     if (refresh && bScroll) {

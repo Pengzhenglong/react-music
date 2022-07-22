@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import  LazyLoad, {forceCheck} from 'react-lazyload';
 import Horizen from '@/baseUI/horizen-item/index';
 import { categoryTypes, alphaTypes } from '@/api/config';
 import { NavContainer, ListContainer, List, ListItem } from './style';
@@ -16,6 +17,7 @@ import {
 } from './store/actionCreators';
 import { connect } from 'react-redux';
 import { PullDownLoading } from '../../baseUI/scroll/index';
+import   singer  from  './singer.png'
 
 function Singers(props) {
   let [category, setCategory] = useState('');
@@ -50,12 +52,14 @@ function Singers(props) {
           return (
             <ListItem key={item.accountId + '' + index}>
               <div className="img_wrapper">
+              <LazyLoad placeholder={<img width="100%" height="100%" src={singer}  alt="music"/>}>
                 <img
                   src={`${item.picUrl}?param=300x300`}
                   width="100%"
                   height="100%"
                   alt="music"
                 />
+              </LazyLoad>
               </div>
               <span className="name">{item.name}</span>
             </ListItem>
@@ -86,6 +90,7 @@ function Singers(props) {
         pullDown = {handlePullDown}
         pullUpLoading={pullUpLoading}
         pullDownLoading={pullDownLoading}
+        onScroll={forceCheck}
         >{renderSingerList()}</Scroll>
          <Loading show={enterLoading}></Loading>
       </ListContainer>
