@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import  LazyLoad, {forceCheck} from 'react-lazyload';
 import Horizen from '@/baseUI/horizen-item/index';
 import { categoryTypes, alphaTypes } from '@/api/config';
@@ -19,12 +19,34 @@ import { connect } from 'react-redux';
 import { PullDownLoading } from '../../baseUI/scroll/index';
 import   singer  from  './singer.png'
 
+// import { CategoryDataContext } from './data';
+// import { CHANGE_CATEGORY, CHANGE_ALPHA, Data } from './data';
 function Singers(props) {
-  let [category, setCategory] = useState('');
-  let [alpha, setAlpha] = useState('');
   const { getHotSingerDispatch, updateDispatch, pullDownRefreshDispatch, pullUpRefreshDispatch } = props;
   const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount } = props;
   console.log(props);
+  // 首先需要引入 useContext  
+// 如何用 hooks 实现一个 Redux?
+// 将之前的 useState 代码删除  纯函数
+// const {data, dispatch} = useContext (CategoryDataContext);
+// // 拿到 category 和 alpha 的值
+// console.log(data);
+
+// const {category, alpha} = data.toJS();
+// //CHANGE_ALPHA 和 CHANGE_CATEGORY 变量需要从 data.js 中引入
+// let handleUpdateAlpha = (val) => {
+//   dispatch ({type: CHANGE_ALPHA, data: val});
+//   updateDispatch (category, val);
+// };
+
+// let handleUpdateCategory = (val) => {
+//   dispatch ({type: CHANGE_CATEGORY, data: val});
+//   updateDispatch (val, alpha);
+// };
+  //  useState
+  let [category, setCategory] = useState('');
+  let [alpha, setAlpha] = useState('');
+
   let handleUpdateAlpha = (val) => {
     setAlpha(val);
     updateDispatch(category,val)
