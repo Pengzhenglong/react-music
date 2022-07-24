@@ -23,11 +23,7 @@ function Rank(props) {
   let globalList = rankList.slice(globalStartIndex);
 
   const enterDetail = (name) => {
-    const idx = filterIdx(name);
-    if (idx === null) {
-      alert('暂无相关数据');
-      return;
-    }
+     props.history.push(`/rank/${name}`);
   };
 
   const renderSongList = (list) => {
@@ -52,7 +48,7 @@ function Rank(props) {
             <ListItem
               key={item.coverImgId}
               tracks={item.tracks}
-              onClick={() => enterDetail(item.name)}
+              onClick={() => enterDetail(item)}
             >
               <div className="img_wrapper">
                 <img src={item.coverImgUrl} alt="" />

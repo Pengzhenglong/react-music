@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { forceCheck } from 'react-lazyload';
+import { Outlet } from "react-router-dom";
 
 import Slider from '../../components/slider/slider';
 import RecommendList from '../../components/list/list';
@@ -38,6 +39,8 @@ function Recommend(props) {
         </div>
       </Scroll>
       {enterLoading ? <Loading></Loading> : null}
+      {/* 将目前所在路由的下一层子路由加以渲染 */}
+      <Outlet/>
     </Content>
   );
 }
