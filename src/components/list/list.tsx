@@ -3,7 +3,7 @@ import { ListWrapper, ListItem, List } from './style';
 import { getCount } from '../../api/utils';
 import LazyLoad from 'react-lazyload';
 import music from './music.png';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 function RecommendList(props) {
   const navigate = useNavigate();

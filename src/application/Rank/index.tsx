@@ -6,13 +6,17 @@ import { List, ListItem, SongList, Container } from './style';
 import Scroll from '@/baseUI/scroll/index';
 import { EnterLoading } from '@/application/Singers/style';
 import { filterIndex, filterIdx } from '@/api/utils';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+
 function Rank(props) {
   const { rankList: list, loading } = props;
   const { getRankListDataDispatch } = props;
-
+  const navigate = useNavigate();
+  const  enterDetail = (detail) => {
+    navigate(`/rank/${detail.id}`);
+  }
   let rankList = list ? list.toJS() : [];
-  console.log('rankList', rankList);
+  // console.log('rankList', rankList);
   useEffect(() => {
     if (!rankList.length) {
       getRankListDataDispatch();
@@ -21,10 +25,6 @@ function Rank(props) {
   let globalStartIndex = filterIndex(rankList);
   let officialList = rankList.slice(0, globalStartIndex);
   let globalList = rankList.slice(globalStartIndex);
-
-  const enterDetail = (name) => {
-     props.history.push(`/rank/${name}`);
-  };
 
   const renderSongList = (list) => {
     return list.length ? (

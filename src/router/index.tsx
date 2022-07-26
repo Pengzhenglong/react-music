@@ -32,6 +32,12 @@ const MyRouter = () => {
         {
           path: "/rank",
           element: <Rank />,
+          children:[
+            {
+              path: "/rank/:id",
+              element: <Album />,
+            }
+          ]
         },
       ],
     },
