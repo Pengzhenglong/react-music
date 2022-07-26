@@ -4,7 +4,7 @@ import { fromJS } from 'immutable';
 
 const changeCurrentAlbum = (data) => ({
   type: CHANGE_CURRENT_ALBUM,
-  data: formJS(data),
+  data: fromJS(data),
 });
 
 export const changeEnterLoading = (data) => ({
@@ -12,7 +12,7 @@ export const changeEnterLoading = (data) => ({
   data,
 });
 
-export const getAlbumDetail = (id) => {
+export const getAlbumList = (id) => {
   return (dispatch) => {
     getAlbumDetailRequest(id)
       .then((res) => {

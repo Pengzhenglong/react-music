@@ -1,12 +1,19 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef,useEffect} from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { useNavigate, Navigate } from 'react-router-dom';
 import Header from '@/baseUI/header/index';
 import Scroll from '../../baseUI/scroll/index';
 import { Container, TopDesc, Menu, SongList, SongItem } from './style';
-import { getName, getCount } from '@/api/utils';
+import { getName, getCount,isEmptyObject } from '@/api/utils';
 import style from '@/assets/global-style';
 import { HEADER_HEIGHT } from '@/api/config';
+import { getAlbumList, changeEnterLoading } from './store/actionCreators';
+import { connect } from 'react-redux';
+import { EnterLoading } from '../Singers/style';
+// 通过useParams接受路由传值
+import { useParams } from "react-router-dom";
+import Loading from '@/baseUI/loading/index';
+
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true);
   const [title, setTitle] = useState('歌单');
@@ -38,104 +45,19 @@ function Album(props) {
   const handleBack = () => {
     setShowStatus(false);
   };
-  //mock 数据
-  const currentAlbum = {
-    creator: {
-      avatarUrl:
-        'http://p1.music.126.net/O9zV6jeawR43pfiK2JaVSw==/109951164232128905.jpg',
-      nickname: '浪里推舟',
-    },
-    coverImgUrl:
-      'http://p2.music.126.net/ecpXnH13-0QWpWQmqlR0gw==/109951164354856816.jpg',
-    subscribedCount: 2010711,
-    name: '听完就睡，耳机是天黑以后柔软的梦境',
-    tracks: [
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-      {
-        name: '我真的受伤了',
-        ar: [{ name: '张学友' }, { name: '周华健' }],
-        al: {
-          name: '学友 热',
-        },
-      },
-    ],
-  };
+
+  const { currentAlbum:currentAlbumImmutable,enterLoading} = props;
+  const { getAlbumDataDispatch } = props;
+  const {id} = useParams();
+  console.log(id);
+  
+  useEffect(()=>{
+    getAlbumDataDispatch(id);
+  },[getAlbumDataDispatch,id])
+  const currentAlbum = currentAlbumImmutable.toJS();
+  console.log(currentAlbum);
+  console.log(isEmptyObject(currentAlbum));
+  
   return (
     <CSSTransition
       in={showStatus}
@@ -152,6 +74,7 @@ function Album(props) {
           handleClick={handleBack}
           isMarquee={isMarquee}
         ></Header>
+        {  !isEmptyObject(currentAlbum) ? (
         <Scroll bounceTop={false} onScroll={handleScroll}>
           <div>
             <TopDesc background={currentAlbum.coverImgUrl}>
@@ -230,10 +153,27 @@ function Album(props) {
               })}
             </SongItem>
           </SongList>
-        </Scroll>
+        </Scroll>):null
+}
+      {enterLoading?<Loading></Loading>:null}
       </Container>
     </CSSTransition>
   );
 }
 
-export default React.memo(Album);
+// 映射 Redux 全局的 state 到当前组件的 props
+const  mapStateToProps = (state) => ({
+  currentAlbum: state.getIn(["album", "currentAlbum"]),
+  EnterLoading:state.getIn(["album", "EnterLoading"])
+})
+// 映射 dispatch 到 props 中
+const mapDispatchToProps = (dispatch) => {
+  return  {
+    getAlbumDataDispatch(id) {
+      dispatch(getAlbumList(id));
+      dispatch(changeEnterLoading(true));
+    }
+  }
+}
+// 将ui组件包装成容器组件
+export default  connect(mapStateToProps,mapDispatchToProps)(React.memo(Album));
