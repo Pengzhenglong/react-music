@@ -3,6 +3,7 @@ import Recommend from "../application/Recommend";
 import Singers from "../application/Singers";
 import Rank from "../application/Rank";
 import Album from "../application/Album";
+import Singer from "../application/Singer";
 import { useRoutes, Navigate } from "react-router-dom";
 
 const MyRouter = () => {
@@ -28,6 +29,12 @@ const MyRouter = () => {
         {
           path: "/singers",
           element: <Singers />,
+          children:[
+            {
+              path: "/singers/:id",
+              element: <Singer />,
+            }
+          ]
         },
         {
           path: "/rank",

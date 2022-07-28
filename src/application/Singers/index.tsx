@@ -18,10 +18,11 @@ import {
 import { connect } from 'react-redux';
 import { PullDownLoading } from '../../baseUI/scroll/index';
 import   singer  from  './singer.png'
-
+import { Outlet, useNavigate, Navigate } from 'react-router-dom';
 // import { CategoryDataContext } from './data';
 // import { CHANGE_CATEGORY, CHANGE_ALPHA, Data } from './data';
 function Singers(props) {
+  const  navigate = useNavigate();
   const { getHotSingerDispatch, updateDispatch, pullDownRefreshDispatch, pullUpRefreshDispatch } = props;
   const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount } = props;
   console.log(props);
@@ -64,6 +65,9 @@ function Singers(props) {
   const handlePullDown = () => {
     pullDownRefreshDispatch(category, alpha);
   }
+  const  enterDetail = (id) => {
+    navigate.push(`/singers/${id}`);
+  }
   // 渲染函数，返回歌手列表
   const renderSingerList = () => {
     const  list  = singerList?singerList.toJS():[];
@@ -72,7 +76,7 @@ function Singers(props) {
       <List>
         {list.map((item, index) => {
           return (
-            <ListItem key={item.accountId + '' + index}>
+            <ListItem key={item.accountId + '' + index} onClick={()=>enterDetail(item.id)}>
               <div className="img_wrapper">
               <LazyLoad placeholder={<img width="100%" height="100%" src={singer}  alt="music"/>}>
                 <img
@@ -116,6 +120,7 @@ function Singers(props) {
         >{renderSingerList()}</Scroll>
          <Loading show={enterLoading}></Loading>
       </ListContainer>
+      <Outlet/>
     </div>
   );
 }
