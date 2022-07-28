@@ -13,7 +13,7 @@ import { EnterLoading } from '../Singers/style';
 // 通过useParams接受路由传值
 import { useParams } from 'react-router-dom';
 import Loading from '@/baseUI/loading/index';
-
+import SongsList  from  '@/application/SingsList/index';
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true);
   const [title, setTitle] = useState('歌单');
@@ -24,7 +24,8 @@ function Album(props) {
   const { getAlbumDataDispatch } = props;
   const { id } = useParams();
   const currentAlbum = currentAlbumImmutable.toJS();
-
+  console.log(currentAlbum);
+  
   const handleScroll = useCallback(
     (pos) => {
       let minScrollY = -HEADER_HEIGHT;
@@ -167,7 +168,13 @@ function Album(props) {
               {renderTopDesc()}
               {renderMenu()}
               {/* 下面这个要放在div中这样scroll才会生效 */}
-              {renderSongList()}
+              {/* {renderSongList()} */}
+              <SongsList
+                  songs={currentAlbum.tracks}
+                  collectCount={currentAlbum.subscribedCount}
+                  showCollect={true}
+                  showBackground={true}
+                ></SongsList>
             </div>
           </Scroll>
         ) : null}

@@ -66,7 +66,7 @@ function Singers(props) {
     pullDownRefreshDispatch(category, alpha);
   }
   const  enterDetail = (id) => {
-    navigate.push(`/singers/${id}`);
+    navigate(`/singers/${id}`);
   }
   // 渲染函数，返回歌手列表
   const renderSingerList = () => {
