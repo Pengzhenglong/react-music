@@ -13,7 +13,7 @@ import { EnterLoading } from '../Singers/style';
 // 通过useParams接受路由传值
 import { useParams } from 'react-router-dom';
 import Loading from '@/baseUI/loading/index';
-import SongsList  from  '@/application/SingsList/index';
+import SongsList  from  '@/application/SongsList/index';
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true);
   const [title, setTitle] = useState('歌单');
