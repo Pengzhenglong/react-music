@@ -51,4 +51,5 @@ const mapDispatchToProps = (dispatch) => {
       dispatch (changePlayList (data));
     }
   }
+}
 export default connect(mapStateToProps,mapDispatchToProps)(React.memo(Player))

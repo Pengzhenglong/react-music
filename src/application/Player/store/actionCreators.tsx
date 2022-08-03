@@ -3,7 +3,7 @@ import { fromJS } from 'immutable';
 
 export  const  changeCurrentSong = (data) => ({
   type: SET_CURRENT_SONG,
-  data：fromJS(data)
+  data:fromJS(data)
 })
 
 export const changeFullScreen =  (data) => ({

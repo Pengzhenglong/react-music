@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 // import { renderRoutes } from "react-router-config";
 import { Top, Tab, TabItem } from "./style";
 import { NavLink } from "react-router-dom"; //利用NavLink组件进行路由跳转
-import  Player  from  './Player/index'
+import  Player  from  '../Player/index';
 function Home(props) {
   const { route } = props;
 

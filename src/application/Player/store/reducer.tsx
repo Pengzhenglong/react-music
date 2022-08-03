@@ -7,7 +7,7 @@ const defaultState = fromJS({
     playing:false,  //当前歌曲是否播放
     sequencePlayList:[], //顺序播放列表(因为之后会有随机模式，列表会乱序，因从拿这个保存顺序列表)
     playList:[],
-    mode:PlayMode.sequence, //播放模式
+    mode:playMode.sequence, //播放模式
     currentIndex:-1, //当前播放歌曲的索引
     showPlayList:false, //是否显示播放列表
     currentSong:null, //当前播放的歌曲
