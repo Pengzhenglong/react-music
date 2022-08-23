@@ -1,4 +1,6 @@
 import React, { memo,useEffect,useRef,useState } from 'react'
+import MiniPlayer from './miniPlayer';
+import NormalPlayer from './normalPlayer';
 import { connect } from 'react-redux'
 import {
   changePlayingState,
@@ -11,8 +13,23 @@ import {
 } from "./store/actionCreators";
 
 const Player = memo((props) => {
+  const { fullScreen } = props;
+
+  const { toggleFullScreenDispatch } = props;
+  const  currentSong={
+    al: { picUrl: "https://p1.music.126.net/JL_id1CFwNJpzgrXwemh4Q==/109951164172892390.jpg" },
+    name: "木偶人",
+    ar: [{name: "薛之谦"}]
+  }
   return (
-    <div>Player</div>
+    <div>
+      <MiniPlayer  song={currentSong}      toggleFullScreen={toggleFullScreenDispatch}></MiniPlayer>
+      <NormalPlayer 
+        song={currentSong}
+        fullScreen={fullScreen}
+        toggleFullScreen={toggleFullScreenDispatch}
+      />
+    </div>
   )
 })
 // 映射 Redux 全局的 state 到组件的 props 上
