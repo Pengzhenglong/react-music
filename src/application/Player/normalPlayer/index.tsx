@@ -13,7 +13,7 @@ import {
 
 function NormalPlayer(props) {
   const { song, fullScreen } = props;
-  const { toggleFullScreenDispatch } = props;
+  const { toggleFullScreen } = props;
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
   // 启用帧动画
@@ -102,7 +102,7 @@ function NormalPlayer(props) {
           />
         </div>
         <div className="background layer"></div>
-        <Top className="top"    onClick={() => toggleFullScreenDispatch(false)}>
+        <Top className="top"    onClick={() => toggleFullScreen(false)}>
           <div className="back">
             <i className="iconfont icon-back">&#xe662;</i>
           </div>

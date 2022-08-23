@@ -15,7 +15,15 @@ import {
 const Player = memo((props) => {
   const { fullScreen } = props;
 
-  const { toggleFullScreenDispatch } = props;
+  
+  const {
+    togglePlayingDispatch,
+    changeCurrentIndexDispatch,
+    changeCurrentDispatch,
+    changePlayListDispatch,//改变playList
+    changeModeDispatch,//改变mode
+    toggleFullScreenDispatch
+  } = props;
   const  currentSong={
     al: { picUrl: "https://p1.music.126.net/JL_id1CFwNJpzgrXwemh4Q==/109951164172892390.jpg" },
     name: "木偶人",
