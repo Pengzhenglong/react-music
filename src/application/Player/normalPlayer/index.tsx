@@ -10,12 +10,14 @@ import {
   Operators,
   CDWrapper,
 } from './style';
+import { prefixStyle } from "../../../api/utils";
 
 function NormalPlayer(props) {
   const { song, fullScreen } = props;
   const { toggleFullScreen } = props;
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
+  const transform = prefixStyle("transform");
   // 启用帧动画
   const enter = () => {
     normalPlayerRef.current.style.display = 'block';
