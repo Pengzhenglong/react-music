@@ -14,8 +14,6 @@ import {
 
 const Player = memo((props) => {
   const { fullScreen } = props;
-
-  
   const {
     togglePlayingDispatch,
     changeCurrentIndexDispatch,
@@ -31,7 +29,7 @@ const Player = memo((props) => {
   }
   return (
     <div>
-      <MiniPlayer  song={currentSong}      toggleFullScreen={toggleFullScreenDispatch}></MiniPlayer>
+      <MiniPlayer  song={currentSong}    fullScreen={fullScreen}   toggleFullScreen={toggleFullScreenDispatch}></MiniPlayer>
       <NormalPlayer 
         song={currentSong}
         fullScreen={fullScreen}
