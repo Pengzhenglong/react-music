@@ -57,7 +57,6 @@ function ProgressBar(props) {
       progress.current.style.width = `${offsetWidth}px`;
       progressBtn.current.style[transform] = `translate3d(${offsetWidth}px, 0, 0)`;
     }
-    // eslint-disable-next-line
   }, [percent]);
 
   const _changePercent = () => {
