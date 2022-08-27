@@ -9,15 +9,17 @@ import {
   Bottom,
   Operators,
   CDWrapper,
+  ProgressWrapper,
 } from './style';
-import { prefixStyle } from "../../../api/utils";
+import { prefixStyle } from '../../../api/utils';
+import ProgressBar from '../../../baseUI/progress-bar/index';
 
 function NormalPlayer(props) {
   const { song, fullScreen } = props;
   const { toggleFullScreen } = props;
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
-  const transform = prefixStyle("transform");
+  const transform = prefixStyle('transform');
   // 启用帧动画
   const enter = () => {
     normalPlayerRef.current.style.display = 'block';
@@ -64,24 +66,26 @@ function NormalPlayer(props) {
   const afterEnter = () => {
     // 进入后解绑帧动画
     const cdWrapperDom = cdWrapperRef.current;
-    animations.unregisterAnimation("move");
-    cdWrapperDom.style.animation = "";
+    animations.unregisterAnimation('move');
+    cdWrapperDom.style.animation = '';
   };
 
   const leave = () => {
     if (!cdWrapperRef.current) return;
     const cdWrapperDom = cdWrapperRef.current;
-    cdWrapperDom.style.transition = "all 0.4s";
+    cdWrapperDom.style.transition = 'all 0.4s';
     const { x, y, scale } = _getPosAndScale();
-    cdWrapperDom.style[transform] = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+    cdWrapperDom.style[
+      transform
+    ] = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
   };
 
   const afterLeave = () => {
     if (!cdWrapperRef.current) return;
     const cdWrapperDom = cdWrapperRef.current;
-    cdWrapperDom.style.transition = "";
-    cdWrapperDom.style[transform] = "";
-    normalPlayerRef.current.style.display = "none";
+    cdWrapperDom.style.transition = '';
+    cdWrapperDom.style[transform] = '';
+    normalPlayerRef.current.style.display = 'none';
   };
   return (
     <CSSTransition
@@ -104,7 +108,7 @@ function NormalPlayer(props) {
           />
         </div>
         <div className="background layer"></div>
-        <Top className="top"    onClick={() => toggleFullScreen(false)}>
+        <Top className="top" onClick={() => toggleFullScreen(false)}>
           <div className="back">
             <i className="iconfont icon-back">&#xe662;</i>
           </div>
@@ -123,6 +127,13 @@ function NormalPlayer(props) {
           </CDWrapper>
         </Middle>
         <Bottom className="bottom">
+          <ProgressWrapper>
+            <span className="time time-l">0:00</span>
+            <div className="progress-bar-wrapper">
+              <ProgressBar percent={0.2}  ></ProgressBar>
+            </div>
+            <div className="time time-r">4:17</div>
+          </ProgressWrapper>
           <Operators>
             <div className="icon i-left">
               <i className="iconfont">&#xe625;</i>
