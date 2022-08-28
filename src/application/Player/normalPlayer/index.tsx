@@ -15,7 +15,7 @@ import { prefixStyle } from '../../../api/utils';
 import ProgressBar from '../../../baseUI/progress-bar/index';
 
 function NormalPlayer(props) {
-  const { song, fullScreen } = props;
+  const { song, fullScreen ,onProgressChange,percent } = props;
   const { toggleFullScreen } = props;
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
@@ -130,7 +130,9 @@ function NormalPlayer(props) {
           <ProgressWrapper>
             <span className="time time-l">0:00</span>
             <div className="progress-bar-wrapper">
-              <ProgressBar percent={0.2}  ></ProgressBar>
+              <ProgressBar percent={percent} 
+              percentChange= {onProgressChange}
+               ></ProgressBar>
             </div>
             <div className="time time-r">4:17</div>
           </ProgressWrapper>
