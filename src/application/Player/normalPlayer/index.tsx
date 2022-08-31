@@ -15,8 +15,8 @@ import { prefixStyle } from '../../../api/utils';
 import ProgressBar from '../../../baseUI/progress-bar/index';
 
 function NormalPlayer(props) {
-  const { song, fullScreen ,onProgressChange,percent } = props;
-  const { toggleFullScreen } = props;
+  const { song, fullScreen, onProgressChange, percent, playing } = props;
+  const { toggleFullScreen, clickPlaying } = props;
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
   const transform = prefixStyle('transform');
@@ -119,7 +119,7 @@ function NormalPlayer(props) {
           <CDWrapper>
             <div className="cd">
               <img
-                className="image play"
+                className={`image play ${playing ? '' : 'pause'}`}
                 src={song.al.picUrl + '?param=400x400'}
                 alt=""
               />
@@ -130,9 +130,10 @@ function NormalPlayer(props) {
           <ProgressWrapper>
             <span className="time time-l">0:00</span>
             <div className="progress-bar-wrapper">
-              <ProgressBar percent={percent} 
-              percentChange= {onProgressChange}
-               ></ProgressBar>
+              <ProgressBar
+                percent={percent}
+                percentChange={onProgressChange}
+              ></ProgressBar>
             </div>
             <div className="time time-r">4:17</div>
           </ProgressWrapper>
@@ -143,7 +144,15 @@ function NormalPlayer(props) {
             <div className="icon i-left">
               <i className="iconfont">&#xe6e1;</i>
             </div>
-            <div className="icon i-center">
+            <div
+              className="icon i-center"
+              onClick={(e) => {
+                clickPlaying(e, !playing);
+              }}
+              dangerouslySetInnerHTML={{
+                _html: playing ? '&#xe723;' : '&#xe731;',
+              }}
+            >
               <i className="iconfont">&#xe723;</i>
             </div>
             <div className="icon i-right">
