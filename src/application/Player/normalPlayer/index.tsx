@@ -16,7 +16,7 @@ import ProgressBar from '../../../baseUI/progress-bar/index';
 
 function NormalPlayer(props) {
   const { song, fullScreen, onProgressChange, percent, playing } = props;
-  const { toggleFullScreen, clickPlaying } = props;
+  const { toggleFullScreen, clickPlaying,handlePrev,handleNext } = props;
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
   const transform = prefixStyle('transform');
@@ -138,24 +138,22 @@ function NormalPlayer(props) {
             <div className="time time-r">4:17</div>
           </ProgressWrapper>
           <Operators>
-            <div className="icon i-left">
+            <div className="icon i-left"  >
               <i className="iconfont">&#xe625;</i>
             </div>
-            <div className="icon i-left">
+            <div className="icon i-left"onClick={handlePrev}>
               <i className="iconfont">&#xe6e1;</i>
             </div>
-            <div
-              className="icon i-center"
-              onClick={(e) => {
-                clickPlaying(e, !playing);
-              }}
-              dangerouslySetInnerHTML={{
-                _html: playing ? '&#xe723;' : '&#xe731;',
-              }}
-            >
-              <i className="iconfont">&#xe723;</i>
+            <div className="icon i-center">
+              <i
+                className="iconfont"
+                onClick={e => clickPlaying(e, !playing)}
+                dangerouslySetInnerHTML={{
+                  __html: playing ? "&#xe723;" : "&#xe731;"
+                }}
+              ></i>
             </div>
-            <div className="icon i-right">
+            <div className="icon i-right"  onClick={handleNext}>
               <i className="iconfont">&#xe718;</i>
             </div>
             <div className="icon i-right">

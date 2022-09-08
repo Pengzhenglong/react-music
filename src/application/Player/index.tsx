@@ -127,24 +127,63 @@ const Player = memo((props) => {
       rurl: null,
     },
   ];
-  useEffect(() => {
-    if (!currentSong) return;
-    changeCurrentIndexDispatch(0); //currentIndex默认为-1，临时改成0
-    let current = playList[0];
-    changeCurrentDispatch(current); //赋值currentSong
-    audioRef.current.src = getSongUrl(current.id);
+  //记录当前的歌曲，以便于下次重渲染时比对是否是一首歌
+  const [preSong, setPreSong] = useState({});
 
+  //先mock一份currentIndex
+  useEffect(() => {
+    changeCurrentIndexDispatch(0);
+  }, []);
+
+  useEffect(() => {
+    if (
+      !playList.length ||
+      currentIndex === -1 ||
+      !playList[currentIndex] ||
+      playList[currentIndex].id === preSong.id
+    )
+      return;
+    let current = playList[currentIndex];
+    changeCurrentDispatch(current); //赋值currentSong
+    setPreSong(current);
+    audioRef.current.src = getSongUrl(current.id);
     setTimeout(() => {
       audioRef.current.play();
     });
     togglePlayingDispatch(true); //播放状态
     setCurrentTime(0); //从头开始播放
     setDuration((current.dt / 1000) | 0); //时长
-  }, []);
-  useEffect(()=>{
-    playing? audioRef.current.play() : audioRef.current.pause();
-  },[playing]);
+  }, [playList, currentIndex]);
 
+  // 一首歌循环
+  const handleLoop = () => {
+    audioRef.current.currentTime = 0;
+    changePlayingState(true);
+    audioRef.current.play();
+  };
+  const handlePrev = () => {
+    console.log('上一首');
+    // 播放列表只有一首歌时单曲循环
+    if (playList.length === 1) {
+      handleLoop();
+      return;
+    }
+    let index = currentIndex - 1;
+    if (index < 0) index = playList.length - 1;
+    if (!playing) togglePlayingDispatch(true);
+    changeCurrentDispatch(index);
+  };
+  const handleNext = () => {
+    console.log('下一首');
+    // 播放列表只有一首歌时单曲循环
+    if (playList.length === 1) {
+      handleLoop();
+      return;
+    }
+    let index = currentIndex + 1;
+    if (!playing) togglePlayingDispatch(true);
+    changeCurrentIndexDispatch(index);
+  };
   return (
     <div>
       {isEmptyObject(currentSong) ? null : (
@@ -166,6 +205,8 @@ const Player = memo((props) => {
           clickPlaying={clickPlaying}
           playing={playing}
           toggleFullScreen={toggleFullScreenDispatch}
+          handlePrev={handlePrev}
+          handleNext={handleNext}
         />
       )}
       <audio ref={audioRef}></audio>
