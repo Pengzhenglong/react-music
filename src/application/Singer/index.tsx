@@ -19,7 +19,7 @@ import MusicNote from "../../baseUI/music-note/index";
 
 function Singer(props) {
   const [showStatus, setShowStatus] = useState(true);
-  const { artist: immutableArtist, songs: immutableSongs, loading } = props;
+  const { artist: immutableArtist, songs: immutableSongs, loading ,songsCount} = props;
 
   const { getSingerDataDispatch } = props;
   console.log(props);
@@ -105,7 +105,7 @@ function Singer(props) {
       unmountOnExit
       onExited={goBack}
     >
-      <Container>
+      <Container  play={songsCount}>
         <Header
           handleClick={setShowStatusFalse}
           title={artist.name}
@@ -135,6 +135,7 @@ const mapStateToProps = (state) => ({
   artist: state.getIn(['singerInfo', 'artist']),
   songs: state.getIn(['singerInfo', 'songsOfArtist']),
   loading: state.getIn(['singerInfo', 'loading']),
+  songsCount: state.getIn(['player', 'playList']).size
 });
 // 映射dispatch到props上
 const mapDispatchToProps = (dispatch) => {

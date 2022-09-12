@@ -16,7 +16,7 @@ import {
 import * as actionTypes from './store/actionCreators';
 // import Loading from '../../baseUI/loading/index';
 function Recommend(props) {
-  const { bannerList, recommendList, enterLoading } = props;
+  const { bannerList, recommendList, enterLoading,songsCount } = props;
   const { getBannerDataDispatch, getRecommendListDataDispatch } = props;
   useEffect(() => {
     // 如果页面有数据，则不发请求
@@ -31,7 +31,7 @@ function Recommend(props) {
   const bannerListJS = bannerList ? bannerList.toJS() : [];
   const getRecommendListJS = recommendList ? recommendList.toJS() : [];
   return (
-    <Content>
+    <Content  play={songsCount}>
       <Scroll className="list" onScroll={forceCheck}>
         <div>
           <Slider bannerList={bannerListJS}></Slider>
@@ -51,6 +51,7 @@ const mapStateToProps = (state) => ({
   bannerList: state.getIn(['recommend', 'bannerList']),
   recommendList: state.getIn(['recommend', 'recommendList']),
   enterLoading: state.getIn(['recommend', 'enterLoading']),
+  songsCount: state.getIn(['player', 'playList']).size,//尽量减少toJS操作，直接取size属性就代表了list的长度
 });
 // 映射 dispatch 到 props 上
 const mapDispatchToProps = (dispatch) => {

@@ -13,8 +13,8 @@ import { EnterLoading } from '../Singers/style';
 // 通过useParams接受路由传值
 import { useParams } from 'react-router-dom';
 import Loading from '@/baseUI/loading/index';
-import SongsList  from  '@/application/SongsList/index';
-import MusicNote from "../../baseUI/music-note/index";
+import SongsList from '@/application/SongsList/index';
+import MusicNote from '../../baseUI/music-note/index';
 
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true);
@@ -22,16 +22,16 @@ function Album(props) {
   const [isMarquee, setIsMarquee] = useState(false); //是否开启跑马灯
   const headerEl = useRef();
   const navigate = useNavigate();
-  const { currentAlbum: currentAlbumImmutable, enterLoading } = props;
+  const { currentAlbum: currentAlbumImmutable, enterLoading,songsCount } = props;
   const { getAlbumDataDispatch } = props;
   const { id } = useParams();
   const currentAlbum = currentAlbumImmutable.toJS();
   console.log(currentAlbum);
-  const musicNoteRef = useRef ();
+  const musicNoteRef = useRef();
 
-const musicAnimation = (x, y) => {
-  musicNoteRef.current.startAnimation ({ x, y });
-};
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation({ x, y });
+  };
 
   const handleScroll = useCallback(
     (pos) => {
@@ -162,7 +162,7 @@ const musicAnimation = (x, y) => {
       unmountOnExit
       onExited={goBack}
     >
-      <Container>
+      <Container  play={songsCount}>
         <Header
           ref={headerEl}
           title={title}
@@ -177,12 +177,12 @@ const musicAnimation = (x, y) => {
               {/* 下面这个要放在div中这样scroll才会生效 */}
               {/* {renderSongList()} */}
               <SongsList
-                  songs={currentAlbum.tracks}
-                  collectCount={currentAlbum.subscribedCount}
-                  showCollect={true}
-                  showBackground={true}
-                  musicAnimation={musicAnimation}
-                ></SongsList>
+                songs={currentAlbum.tracks}
+                collectCount={currentAlbum.subscribedCount}
+                showCollect={true}
+                showBackground={true}
+                musicAnimation={musicAnimation}
+              ></SongsList>
             </div>
           </Scroll>
         ) : null}
@@ -197,6 +197,7 @@ const musicAnimation = (x, y) => {
 const mapStateToProps = (state) => ({
   currentAlbum: state.getIn(['album', 'currentAlbum']),
   EnterLoading: state.getIn(['album', 'EnterLoading']),
+  songsCount: state.getIn(['player','playList']).size,
 });
 // 映射 dispatch 到 props 中
 const mapDispatchToProps = (dispatch) => {

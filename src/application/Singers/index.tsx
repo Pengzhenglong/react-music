@@ -24,7 +24,7 @@ import { Outlet, useNavigate, Navigate } from 'react-router-dom';
 function Singers(props) {
   const  navigate = useNavigate();
   const { getHotSingerDispatch, updateDispatch, pullDownRefreshDispatch, pullUpRefreshDispatch } = props;
-  const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount } = props;
+  const { singerList, enterLoading, pullUpLoading, pullDownLoading, pageCount,songsCount } = props;
   console.log(props);
   // 首先需要引入 useContext  
 // 如何用 hooks 实现一个 Redux?
@@ -110,7 +110,7 @@ function Singers(props) {
           oldVal={alpha}
         />
       </NavContainer>
-      <ListContainer>
+      <ListContainer  play={songsCount}>
         <Scroll
         pullUp={handlePullUp}
         pullDown = {handlePullDown}
@@ -131,6 +131,7 @@ function Singers(props) {
     pullUpLoading: state.getIn(['singers', 'pullUpLoading']),
     pullDownLoading: state.getIn(['singers', 'pullDownLoading']),
     pageCount: state.getIn(['singers', 'pageCount']),
+    songsCount: state.getIn(['player', 'playList']).size
   });
   const mapDispatchToProps = (dispatch) => {
     return {
