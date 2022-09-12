@@ -82,7 +82,7 @@ const Player = memo((props) => {
     setTimeout(() => {
       audioRef.current.play().then(()=>{
         setSongReady(true)
-      });
+      },(err)=>{console.log(err)});
     });
     togglePlayingDispatch(true); //播放状态
     setCurrentTime(0); //从头开始播放
@@ -159,6 +159,10 @@ const Player = memo((props) => {
       handleNext();
     }
   }
+  const  handleError = () =>{
+    songReady.current = true;
+    alert("播放错误")
+  }
   return (
     <div>
       {isEmptyObject(currentSong) ? null : (
@@ -188,7 +192,7 @@ const Player = memo((props) => {
           duration={duration}
         />
       )}
-      <audio ref={audioRef}  onTimeUpdate={updateTime}  onEnded={handleEnd}></audio>
+      <audio ref={audioRef}  onTimeUpdate={updateTime}  onEnded={handleEnd}   onError={handleError}></audio>
       <Toast text={modeText} ref={toastRef}></Toast>  
     </div>
   );
