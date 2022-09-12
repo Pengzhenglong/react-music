@@ -18,8 +18,8 @@ import { playMode } from '../../api/config';
 const Player = memo((props) => {
   const {
     togglePlayingDispatch,
-    changeCurrentIndexDispatch,
-    changeCurrentDispatch,
+    changeCurrentIndexDispatch,//改变当前歌曲index
+    changeCurrentDispatch,  //改变当前歌曲
     changePlayListDispatch, //改变playList
     changeModeDispatch, //改变mode
     toggleFullScreenDispatch,
@@ -44,6 +44,12 @@ const Player = memo((props) => {
   const [duration, setDuration] = useState(0);
   // 歌曲播放进度
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
+  const audioRef = useRef();
+  const [preSong, setPreSong] = useState({});
+  const playList = immutablePlayList.toJS();
+  const sequencePlayList = immutableSequencePlayList.toJS();
+  const currentSong = immutableCurrentSong.toJS();
+
   const clickPlaying = (e, state) => {
     console.log(state);
     e.stopPropagation();
@@ -59,11 +65,6 @@ const Player = memo((props) => {
       togglePlayingDispatch(true);
     }
   };
-  const audioRef = useRef();
-  const [preSong, setPreSong] = useState({});
-  const playList = immutablePlayList.toJS();
-  const sequencePlayList = immutableSequencePlayList.toJS();
-  const currentSong = immutableCurrentSong.toJS();
 
   useEffect(() => {
     if (
@@ -107,7 +108,7 @@ const Player = memo((props) => {
     let index = currentIndex - 1;
     if (index < 0) index = playList.length - 1;
     if (!playing) togglePlayingDispatch(true);
-    changeCurrentDispatch(index);
+    changeCurrentIndexDispatch(index);
   };
   const handleNext = () => {
     console.log('下一首');
@@ -117,6 +118,7 @@ const Player = memo((props) => {
       return;
     }
     let index = currentIndex + 1;
+    if (index === playList.length) index = 0;
     if (!playing) togglePlayingDispatch(true);
     changeCurrentIndexDispatch(index);
   };
@@ -127,21 +129,25 @@ const Player = memo((props) => {
       // 顺序播放
       changePlayListDispatch(sequencePlayList);
       let index = findIndex(currentSong, sequencePlayList);
-      changeCurrentDispatch(index);
+      changeCurrentIndexDispatch(index);
+      console.log("顺序循环");
       setModeText("顺序循环");
     } else if (newMode === 1) {
       //  单曲循环
       changePlayListDispatch(sequencePlayList);
+      console.log("单曲循环");
+      setModeText("单曲循环");
     } else if (newMode === 2) {
       // 随机播放
       let newList = shuffle(sequencePlayList);
       let index = findIndex(currentSong, newList);
       changePlayListDispatch(newList);
-      changeCurrentIndex(index);
-      setModeText("单曲循环");
+      changeCurrentIndexDispatch(index);
+      console.log("随机播放");
+      setModeText("随机播放");
     }
     changeModeDispatch(newMode);
-    setModeText("随机播放");
+    toastRef.current.show();
   };
   const updateTime = e => {
     setCurrentTime(e.target.currentTime);
