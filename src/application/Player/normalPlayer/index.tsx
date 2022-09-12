@@ -1,5 +1,5 @@
 import React, { memo, useRef } from 'react';
-import { getName } from '../../../api/utils';
+import { getName,formatPlayTime } from '../../../api/utils';
 import { CSSTransition } from 'react-transition-group';
 import animations from 'create-keyframe-animation';
 import {
@@ -16,8 +16,8 @@ import ProgressBar from '../../../baseUI/progress-bar/index';
 import { playMode } from '../../../api/config';
 
 function NormalPlayer(props) {
-  const { song, fullScreen, onProgressChange, percent, playing } = props;
-  const { toggleFullScreen, clickPlaying, handlePrev, handleNext } = props;
+  const { song, fullScreen, percent, playing,mode ,currentTime,duration,} = props;
+  const { toggleFullScreen, clickPlaying, handlePrev, handleNext,changeMode ,onProgressChange} = props;
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
   const transform = prefixStyle('transform');
@@ -141,14 +141,14 @@ const getPlayMode = () => {
         </Middle>
         <Bottom className="bottom">
           <ProgressWrapper>
-            <span className="time time-l">0:00</span>
+            <span className="time time-l">{formatPlayTime(currentTime)}</span>
             <div className="progress-bar-wrapper">
               <ProgressBar
                 percent={percent}
                 percentChange={onProgressChange}
               ></ProgressBar>
             </div>
-            <div className="time time-r">4:17</div>
+            <div className="time time-r">{formatPlayTime(duration)}</div>
           </ProgressWrapper>
           <Operators>
             <div className="icon i-left" onClick={changeMode}>

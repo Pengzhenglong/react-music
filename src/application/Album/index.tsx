@@ -14,6 +14,8 @@ import { EnterLoading } from '../Singers/style';
 import { useParams } from 'react-router-dom';
 import Loading from '@/baseUI/loading/index';
 import SongsList  from  '@/application/SongsList/index';
+import MusicNote from "../../baseUI/music-note/index";
+
 function Album(props) {
   const [showStatus, setShowStatus] = useState(true);
   const [title, setTitle] = useState('歌单');
@@ -25,7 +27,12 @@ function Album(props) {
   const { id } = useParams();
   const currentAlbum = currentAlbumImmutable.toJS();
   console.log(currentAlbum);
-  
+  const musicNoteRef = useRef ();
+
+const musicAnimation = (x, y) => {
+  musicNoteRef.current.startAnimation ({ x, y });
+};
+
   const handleScroll = useCallback(
     (pos) => {
       let minScrollY = -HEADER_HEIGHT;
@@ -174,11 +181,13 @@ function Album(props) {
                   collectCount={currentAlbum.subscribedCount}
                   showCollect={true}
                   showBackground={true}
+                  musicAnimation={musicAnimation}
                 ></SongsList>
             </div>
           </Scroll>
         ) : null}
         {enterLoading ? <Loading></Loading> : null}
+        <MusicNote ref={musicNoteRef}></MusicNote>
       </Container>
     </CSSTransition>
   );

@@ -45,7 +45,7 @@ Header.defaultProps = {
 };
 
 Header.propTypes = {
-  handleClick: PropTypes.func,
+  handleClick: PropTypes.func  ,
   title: PropTypes.string,
   isMarquee: PropTypes.bool
 };

@@ -31,7 +31,7 @@ function MiniPlayer(props) {
         <div className="icon">
           <div className="imgWrapper">
             <img
-              className={`play${playing?"":"pause"}`}
+              className={`play${playing?" ":"pause"}`}
               src={song.al.picUrl}
               width="40"
               height="40"
@@ -45,7 +45,12 @@ function MiniPlayer(props) {
         </div>
         <div className="control">
           <ProgressCircle radius={32} percent={percent}>
-            <i className="icon-mini iconfont icon-pause">&#xe650;</i>
+          {
+            playing ?
+            <i className="icon-mini iconfont icon-pause"  onClick={e=>clickPlaying(e,false)}>&#xe650;</i>  :
+            <i className="icon-mini iconfont icon-play"  onClick={e=>clickPlaying(e,true)}>&#xe61e;</i> 
+
+          }
           </ProgressCircle>
         </div>
         <div className="control">

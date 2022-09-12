@@ -88,6 +88,6 @@ Horizen.prototype = {
   list: PropTypes.array,
   oldVal: PropTypes.string,
   title: PropTypes.string,
-  handleClick: PropTypes.func,
+  handleClick: PropTypes.func  ,
 };
 export default memo(Horizen);
