@@ -1,5 +1,5 @@
 # react-music
-react防网易云音乐
+react仿网易云音乐
 
 ### react+ts+vite
 
